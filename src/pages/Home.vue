@@ -1,6 +1,6 @@
 <template>
     <div class="flex flex-col p-8">
-    <p class="text-center text-5xl font-bold text-gray-800">What's your <span class="text-red-500">Favourite </span>meal?</p>
+    <p class="text-center text-5xl font-bold text-gray-600">What's your <span class="text-red-500">Favourite </span>meal?</p>
     <button @click="initialData" class="bg-gray-700 py-3 mt-10 mx-auto rounded-lg transition-colors w-60 text-white hover:bg-gray-800 hover:drop-shadow-md  text-lg" title="Click here to generate random meals">Random meals</button>
     <Meals :meals="ingredients"  :loading="isLoading"/>
     </div>
