@@ -1,7 +1,7 @@
 <template>
 
     <Navbar/>
-    <main class="mt-20">
+    <main>
         <router-view/>
     </main>
    

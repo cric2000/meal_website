@@ -1,6 +1,5 @@
 <template>
 <div class="flex gap-4 justify-center text-xl flex-wrap p-2 items-center container mx-auto" >
-    <p class="font-bold text-gray-500 mt-10 text-2xl">Choose any letter : </p>
     <router-link :to="{name:'byLetter', params:{letter}}" v-for="letter of letters" :key="letter" class="mt-10 hover:text-red-500 hover:text-2xl"> 
         {{ letter }}
     </router-link>

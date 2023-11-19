@@ -1,13 +1,76 @@
 <template>
     <div v-if="!loading"
-        class="bg-white rounded-xl overflow-hidden shadow-md hover:shadow-lg min-w-[250px] border-solid border-2 border-red-400 hover:border-red-600">
+        class="bg-white rounded-xl overflow-hidden shadow-md hover:shadow-lg min-w-[250px]">
         <router-link :to="{ name: 'mealDetails', params: { id: meal.idMeal } }">
-            <img :src="meal.strMealThumb" :alt="meal.strMeal" class="w-full h-48 object-cover" title="Click to see more" />
+            <img :src="meal.strMealThumb" :alt="meal.strMeal" class="w-full h-48 object-cover grow-now" title="Click to see more" />
         </router-link>
         <div class="p-8">
+            <div class="flex justify-between items-center">
             <h3 class="font-bold text-lg text-gray-800">{{ meal.strMeal }}</h3>
-            <div class="flex items-center justify-between mt-6">
-                <YouTubeButton :href="meal.strYoutube">Youtube</YouTubeButton>
+           
+            <svg class="h-6 w-6 text-red-500 cursor-pointer  hover:scale-110  mb-2" @click="addToFavorites(meal)"
+            viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+            stroke-linejoin="round">
+            <path :fill="isFavorited ? 'red' : 'none'"
+              d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z" />
+          </svg>
+
+
+          <div v-if='showNotification' id="toast-success"
+            class="flex items-center w-full max-w-xs p-4 mb-4 text-gray-500 bg-white rounded-lg shadow dark:text-white dark:bg-gray-800 absolute top-2 left-1/2 transform -translate-x-1/2"
+            role="alert">
+            <div
+              class="inline-flex items-center justify-center flex-shrink-0 w-8 h-8 text-green-500 bg-green-100 rounded-lg dark:bg-green-800 dark:text-green-200">
+              <svg class="w-5 h-5" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="currentColor"
+                viewBox="0 0 20 20">
+                <path
+                  d="M10 .5a9.5 9.5 0 1 0 9.5 9.5A9.51 9.51 0 0 0 10 .5Zm3.707 8.207-4 4a1 1 0 0 1-1.414 0l-2-2a1 1 0 0 1 1.414-1.414L9 10.586l3.293-3.293a1 1 0 0 1 1.414 1.414Z" />
+              </svg>
+              <span class="sr-only">Check icon</span>
+            </div>
+            <div class="ms-3 text-sm font-normal">Added to Fav.</div>
+            <button @click="closeNotification" type="button"
+              class="ms-auto -mx-1.5 -my-1.5 bg-white text-gray-400 hover:text-gray-900 rounded-lg focus:ring-2 focus:ring-gray-300 p-1.5 hover:bg-gray-100 inline-flex items-center justify-center h-8 w-8 dark:text-gray-500 dark:hover:text-white dark:bg-gray-800 dark:hover:bg-gray-700"
+              data-dismiss-target="#toast-success" aria-label="Close">
+              <span class="sr-only">Close</span>
+              <svg class="w-3 h-3" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 14 14">
+                <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                  d="m1 1 6 6m0 0 6 6M7 7l6-6M7 7l-6 6" />
+              </svg>
+            </button>
+          </div>
+
+          <div id="toast-danger" v-if='removeNotification'
+          class="flex items-center w-full max-w-xs p-4 mb-4 text-gray-500 bg-white rounded-lg shadow dark:text-white dark:bg-gray-800 absolute top-2 left-1/2 transform -translate-x-1/2"
+          role="alert">
+          <div
+            class="inline-flex items-center justify-center flex-shrink-0 w-8 h-8 text-red-500 bg-red-100 rounded-lg dark:bg-red-800 dark:text-red-200">
+            <svg class="w-5 h-5" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="currentColor"
+              viewBox="0 0 20 20">
+              <path
+                d="M10 .5a9.5 9.5 0 1 0 9.5 9.5A9.51 9.51 0 0 0 10 .5Zm3.707 11.793a1 1 0 1 1-1.414 1.414L10 11.414l-2.293 2.293a1 1 0 0 1-1.414-1.414L8.586 10 6.293 7.707a1 1 0 0 1 1.414-1.414L10 8.586l2.293-2.293a1 1 0 0 1 1.414 1.414L11.414 10l2.293 2.293Z" />
+            </svg>
+            <span class="sr-only">Error icon</span>
+          </div>
+          <div class="ms-3 text-sm font-normal">Removed from Fav.</div>
+          <button type="button" @click="closeNotification"
+            class="ms-auto -mx-1.5 -my-1.5 bg-white text-gray-400 hover:text-gray-900 rounded-lg focus:ring-2 focus:ring-gray-300 p-1.5 hover:bg-gray-100 inline-flex items-center justify-center h-8 w-8 dark:text-gray-500 dark:hover:text-white dark:bg-gray-800 dark:hover:bg-gray-700"
+            data-dismiss-target="#toast-danger" aria-label="Close">
+            <span class="sr-only">Close</span>
+            <svg class="w-3 h-3" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 14 14">
+              <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                d="m1 1 6 6m0 0 6 6M7 7l6-6M7 7l-6 6" />
+            </svg>
+          </button>
+        </div>
+
+        </div>
+            <div class="flex items-center gap-2 flex-wrap">
+                <YouTubeButton :href="meal.strYoutube" class="mt-5" >Youtube</YouTubeButton >
+              
+                    <router-link :to="{ name: 'mealDetails', params: { id: meal.idMeal } }" class="mt-5">
+    <p class="px-5 py-2.5 rounded cursor-pointer text-white bg-[#4B4545] transition-colors hover:bg-[#3D3737]">See more</p>
+    </router-link>
             </div>
         </div>
     </div>
@@ -27,6 +90,11 @@
   
 <script setup>
 import YouTubeButton from './YouTubeButton.vue';
+import { ref , onMounted} from 'vue';
+
+const showNotification = ref(false);
+const removeNotification = ref(false);
+const isFavorited = ref(false);
 
 const { meal, loading } = defineProps({
     meal: {
@@ -39,5 +107,61 @@ const { meal, loading } = defineProps({
         default: true,
     },
 });
+
+onMounted(() => {
+  initializeIsFavorited();
+});
+
+function initializeIsFavorited() {
+  const idMeal = meal.idMeal;
+  const mealName = meal.strMeal;
+  const key = `${idMeal}-${mealName}`;
+  const favorites = JSON.parse(localStorage.getItem('favorites')) || {};
+  isFavorited.value = favorites[idMeal] || false;
+}
+
+function addToFavorites(meal) {
+  const idMeal = meal.idMeal;
+  const mealName = meal.strMeal;
+  const key = `${idMeal}-${mealName}`;
+  const favorites = JSON.parse(localStorage.getItem('favorites')) || {};
+
+  // Toggle the favorite status
+  if (favorites[key]) {
+    // ID is already present, remove it
+    delete favorites[key];
+    showNotification.value = true;
+    removeNotification.value = true;
+      // Update the isFavorited value
+  isFavorited.value = false;
+  } else {
+    // ID is not present, add it
+    favorites[key] = true;
+    showNotification.value = true;
+    removeNotification.value = false;
+      // Update the isFavorited value
+  isFavorited.value = true;
+  }
+
+  // Update localStorage
+  localStorage.setItem('favorites', JSON.stringify(favorites));
+
+
+
+  setTimeout(() => {
+    showNotification.value = false;
+    removeNotification.value = false;
+  }, 5000);
+}
+
+function closeNotification() {
+  showNotification.value = false;
+  removeNotification.value = false;
+}
+
 </script>
+
+<style>
+
+</style>
   
