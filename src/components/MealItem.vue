@@ -17,7 +17,7 @@
 
 
           <div v-if='showNotification' id="toast-success"
-            class="flex items-center w-full max-w-xs p-4 mb-4 text-gray-500 bg-white rounded-lg shadow dark:text-white dark:bg-gray-800 absolute top-2 left-1/2 transform -translate-x-1/2"
+            class="flex items-center w-full max-w-xs p-4 mb-4 text-gray-500 bg-white rounded-lg shadow dark:text-white dark:bg-gray-800 fixed top-2 left-1/2 transform -translate-x-1/2"
             role="alert">
             <div
               class="inline-flex items-center justify-center flex-shrink-0 w-8 h-8 text-green-500 bg-green-100 rounded-lg dark:bg-green-800 dark:text-green-200">
@@ -41,7 +41,7 @@
           </div>
 
           <div id="toast-danger" v-if='removeNotification'
-          class="flex items-center w-full max-w-xs p-4 mb-4 text-gray-500 bg-white rounded-lg shadow dark:text-white dark:bg-gray-800 absolute top-2 left-1/2 transform -translate-x-1/2"
+          class="flex items-center w-full max-w-xs p-4 mb-4 text-gray-500 bg-white rounded-lg shadow dark:text-white dark:bg-gray-800 fixed top-2 left-1/2 transform -translate-x-1/2"
           role="alert">
           <div
             class="inline-flex items-center justify-center flex-shrink-0 w-8 h-8 text-red-500 bg-red-100 rounded-lg dark:bg-red-800 dark:text-red-200">

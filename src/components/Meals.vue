@@ -3,6 +3,7 @@
   <MealItem v-for="meal of meals" :key="meal.idMeal" :meal="meal" :loading="loading" class="mb-4 md:mb-0" />
 </div>
 <div v-if="!meals.length && !loading" class="flex justify-center items-center text-white text-2xl mt-4">
+  No meal available for now, Search something
 </div>
 
 </template>

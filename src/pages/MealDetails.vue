@@ -1,7 +1,13 @@
 <template>
-  <div class="mx-auto p-8 container mt-20 flex gap-10 flex-row w-full flex-wrap">
+  <div class="mx-auto p-8 container mt-20 flex gap-10 flex-row w-full flex-wrap justify-center">
     <div>
-      <img :src="meal.strMealThumb" :alt="meal.strMeal" />
+      <svg v-if='loading' class="text-gray-200 dark:text-gray-600 animate-pulse" aria-hidden="true" xmlns="http://www.w3.org/2000/svg"
+                fill="currentColor" viewBox="0 0 16 20">
+                <path
+                    d="M14.066 0H7v5a2 2 0 0 1-2 2H0v11a1.97 1.97 0 0 0 1.934 2h12.132A1.97 1.97 0 0 0 16 18V2a1.97 1.97 0 0 0-1.934-2ZM10.5 6a1.5 1.5 0 1 1 0 2.999A1.5 1.5 0 0 1 10.5 6Zm2.221 10.515a1 1 0 0 1-.858.485h-8a1 1 0 0 1-.9-1.43L5.6 10.039a.978.978 0 0 1 .936-.57 1 1 0 0 1 .9.632l1.181 2.981.541-1a.945.945 0 0 1 .883-.522 1 1 0 0 1 .879.529l1.832 3.438a1 1 0 0 1-.031.988Z" />
+                <path d="M5 5V.13a2.96 2.96 0 0 0-1.293.749L.879 3.707A2.98 2.98 0 0 0 .13 5H5Z" />
+            </svg>
+      <img v-else :src="meal.strMealThumb" :alt="meal.strMeal" />
       <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-2 text-lg py-2 mt-10 gap-4 justify-items-start md:justify-items-start" style="width: 100%; max-width: 700px;">
         <div>
           <div class="flex flex-row gap-4 items-center justify-start h-full w-full">
@@ -12,16 +18,20 @@
           </div>
         </div>
         <div>
-          <div class="flex flex-row gap-4 items-center justify-start h-full">
+          <div class="flex flex-row gap-4 items-center justify-start h-full w-full">
             <img src="../assets/home.png" alt="Area" style="width: 28px;">
             <span v-if="meal.strArea" class="bg-[#FF9F00] px-6 py-2 rounded-3xl text-[#212121]">{{ meal.strArea }}</span>
             <span v-else class="text-white">No area specified</span>
           </div>
         </div>
         <div>
-          <div class="flex flex-row gap-4 items-center justify-start h-full">
+          <div class="flex flex-row gap-4 items-center justify-start h-full w-full">
             <img src="../assets/Tag.png" alt="Tags" style="width: 28px;">
-            <span v-if="meal.strTags" class="bg-[#F65650] px-6 py-2 rounded-3xl text-white">{{ meal.strTags }}</span>
+            <span v-if="meal.strTags" class="bg-[#F65650] px-6 py-2 rounded-3xl text-white" style="overflow: hidden;  white-space: normal; word-wrap: break-word;">
+  {{ meal.strTags }}
+</span>
+
+
             <span v-else class="text-white">No tags specified</span>
           </div>
         </div>
@@ -41,7 +51,7 @@
 
 
           <div v-if='showNotification' id="toast-success"
-            class="flex items-center w-full max-w-xs p-4 mb-4 text-gray-500 bg-white rounded-lg shadow dark:text-white dark:bg-gray-800 absolute top-2 left-1/2 transform -translate-x-1/2"
+            class="flex items-center w-full max-w-xs p-4 mb-4 text-gray-500 bg-white rounded-lg shadow dark:text-white dark:bg-gray-800 fixed top-2 left-1/2 transform -translate-x-1/2"
             role="alert">
             <div
               class="inline-flex items-center justify-center flex-shrink-0 w-8 h-8 text-green-500 bg-green-100 rounded-lg dark:bg-green-800 dark:text-green-200">
@@ -66,7 +76,7 @@
         </div>
 
         <div id="toast-danger" v-if='removeNotification'
-          class="flex items-center w-full max-w-xs p-4 mb-4 text-gray-500 bg-white rounded-lg shadow dark:text-white dark:bg-gray-800 absolute top-2 left-1/2 transform -translate-x-1/2"
+          class="flex items-center w-full max-w-xs p-4 mb-4 text-gray-500 bg-white rounded-lg shadow dark:text-white dark:bg-gray-800 fixed top-2 left-1/2 transform -translate-x-1/2"
           role="alert">
           <div
             class="inline-flex items-center justify-center flex-shrink-0 w-8 h-8 text-red-500 bg-red-100 rounded-lg dark:bg-red-800 dark:text-red-200">
@@ -137,6 +147,7 @@ import YouTubeButton from '../components/YouTubeButton.vue';
 
 const route = useRoute();
 const meal = ref({})
+const loading=ref(false)
 
 
 const hasIngredients = ref(false);
@@ -146,6 +157,8 @@ const removeNotification = ref(false);
 
 onMounted(() => {
   console.log(route.params.id)
+  try{
+    loading.value=true;
   axiosClient.get(`lookup.php?i=${route.params.id}`)
     .then(({ data }) => {
 
@@ -156,8 +169,13 @@ console.log(mealData)
     const favorites = JSON.parse(localStorage.getItem('favorites')) || {};
     const isFav = favorites[mealData.idMeal+'-'+mealData.strMeal] || false;
     isFavorited.value = isFav;
+    loading.value=false;
 
     })
+  }
+  catch{
+    loading.value=false;
+  }
 })
 
 function addToFavorites(meal) {
