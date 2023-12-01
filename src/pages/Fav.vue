@@ -12,11 +12,10 @@
                 </router-link>
             </div>
         </div>
-
-        <!-- Show a message if there are no favorite meals -->
-        <p v-else class="text-[#212121] text-center">You haven't added any favorite meals yet.</p>
+      
+        <p v-else class="text-white text-center text-2xl">You haven't added any favorite meals yet.</p>
         <router-link :to="{ name: 'byName' }">
-            <img src="../assets/add.png" alt="add more" class="mt-10 mx-auto cursor-pointer" title="Add more">
+            <img src="../assets/add.png" alt="add more" class="mt-10 mx-auto cursor-pointer" title="Add new meals">
         </router-link>
     </div>
 </template>
