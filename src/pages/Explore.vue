@@ -9,7 +9,7 @@
     Fetching your order
 </div>
 <Meals :meals="ingredients" :loading="isLoading"/>
-<p class="text-white font-bold italic underline underline-offset-4 float-right text-lg mr-7 cursor-pointer" @click="showNew">Replace with new meals</p>
+<p class="text-white font-bold italic underline underline-offset-4 float-right text-lg mr-7 cursor-pointer mb-20" @click="showNew">Replace with new meals</p>
 </div>
 </template>
 <script setup>

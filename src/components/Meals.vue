@@ -1,9 +1,10 @@
 <template>
-<div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5 p-4 md:p-8 mt-10 ">
-  <MealItem v-for="meal of meals" :key="meal.idMeal" :meal="meal" :loading="loading" class="mb-4 md:mb-0" />
-</div>
+
 <div v-if="!meals.length && !loading" class="flex justify-center items-center text-white text-2xl mt-4">
-  No meal available for now, Search something
+  No meal available? Search something
+</div>
+<div v-else class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5 p-4 md:p-8 mt-10 ">
+  <MealItem v-for="meal of meals" :key="meal.idMeal" :meal="meal" :loading="loading" class="mb-4 md:mb-0" />
 </div>
 
 </template>

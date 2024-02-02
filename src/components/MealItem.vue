@@ -16,7 +16,7 @@
           </svg>
 
 
-          <div v-if='showNotification' id="toast-success"
+          <div v-if='showNotification' id="toast-success" style="z-index: 20;"
             class="flex items-center w-full max-w-xs p-4 mb-4 text-gray-500 bg-white rounded-lg shadow dark:text-white dark:bg-gray-800 fixed top-2 left-1/2 transform -translate-x-1/2"
             role="alert">
             <div
@@ -40,7 +40,7 @@
             </button>
           </div>
 
-          <div id="toast-danger" v-if='removeNotification'
+          <div id="toast-danger" v-if='removeNotification' style="z-index: 20;"
           class="flex items-center w-full max-w-xs p-4 mb-4 text-gray-500 bg-white rounded-lg shadow dark:text-white dark:bg-gray-800 fixed top-2 left-1/2 transform -translate-x-1/2"
           role="alert">
           <div
@@ -83,8 +83,8 @@
                 <path d="M5 5V.13a2.96 2.96 0 0 0-1.293.749L.879 3.707A2.98 2.98 0 0 0 .13 5H5Z" />
             </svg>
         </div>
-        <div class="h-2 bg-gray-200 rounded-full bg-gray-700 w-48 mb-4 mt-10"></div>
-        <button class="px-3 py-2 bg-gray-200 rounded-2 bg-gray-700 w-48"></button>
+        <div class="h-2 rounded-full bg-gray-700 w-48 mb-4 mt-10"></div>
+        <button class="px-3 py-2 rounded-2 bg-gray-700 w-48"></button>
     </div>
 </template>
   

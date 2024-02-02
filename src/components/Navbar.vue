@@ -1,5 +1,5 @@
 <template>
-  <header class="drop-shadow-xl h-16 flex justify-between items-stretch bg-[#212121] text-white fixed top-0 left-0 w-full text-lg z-9999 px-5 py-2" style="z-index: 999999999;">
+  <header class="drop-shadow-xl h-16 flex justify-between items-stretch bg-[#212121] text-white fixed top-0 left-0 w-full text-lg z-9999 px-5 py-2" style="z-index: 10;">
     <router-link :to="{ name: 'home' }" class="flex items-end cursor-pointer justify-center gap-2">
       <img src="../assets/icon.png" alt="food">
       <p class="text-2xl font-bold text-[#EDB353]">Meal</p>
